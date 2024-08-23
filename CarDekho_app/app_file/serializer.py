@@ -1,16 +1,17 @@
 from rest_framework import serializers
-from .. models import Carlist,Showroomlist
+from .. models import Carlist,Showroomlist,Review
 
 
-class ShowroomSerializer(serializers.ModelSerializer):
+
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Showroomlist
-        fields = "__all__"
-        
+        model = Review
+        fields = "__all__"  
 
 class CarSerializers(serializers.ModelSerializer):
     
     discounted_price = serializers.SerializerMethodField()
+    Review = ReviewSerializer(many=True, read_only=True)
     
     class Meta:
         model = Carlist
@@ -33,3 +34,14 @@ class CarSerializers(serializers.ModelSerializer):
         if data ['name'] == data['description']:
             raise serializers.ValidationError("Name and Description should not be same")
         return data
+
+class ShowroomSerializer(serializers.ModelSerializer):
+    showroom = CarSerializers(many = True , read_only = True)
+    class Meta:
+        model = Showroomlist
+        fields = "__all__"
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReviewSerializer
+        fields = "__all__"  
