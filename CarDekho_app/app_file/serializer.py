@@ -4,8 +4,11 @@ from .. models import Carlist,Showroomlist,Review
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    User = serializers.StringRelatedField(read_only=True)
+    
     class Meta:
         model = Review
+        # exclude = ('car',)
         fields = "__all__"  
 
 class CarSerializers(serializers.ModelSerializer):
@@ -40,8 +43,3 @@ class ShowroomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Showroomlist
         fields = "__all__"
-
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ReviewSerializer
-        fields = "__all__"  
